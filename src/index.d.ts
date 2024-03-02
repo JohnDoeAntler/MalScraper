@@ -1,4 +1,4 @@
-declare module 'mal-scraper' {
+declare module '@johndoeantler-tmp/mal-scraper' {
   //=/ ----- VARIABLES ----- /=//
 
   let search: Search
