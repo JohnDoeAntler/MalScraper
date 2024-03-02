@@ -1,5 +1,5 @@
 {
-  "name": "@johndoeantler-tmp/mal-scraper",
+  "name": "@johndoeantler/mal-scraper",
   "version": "2.13.1",
   "description": "Scrap everything you can from MyAnimeList.net",
   "main": "src/index.js",

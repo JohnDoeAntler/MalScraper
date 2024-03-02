@@ -1,4 +1,4 @@
-declare module '@johndoeantler-tmp/mal-scraper' {
+declare module '@johndoeantler/mal-scraper' {
   //=/ ----- VARIABLES ----- /=//
 
   let search: Search
@@ -20,10 +20,10 @@ declare module '@johndoeantler-tmp/mal-scraper' {
     type?: T,
   ): Promise<
     T extends 'anime'
-      ? AnimeDataModel
-      : T extends 'manga'
-        ? MangaDataModel
-        : never
+    ? AnimeDataModel
+    : T extends 'manga'
+    ? MangaDataModel
+    : never
   >
 
   /**
@@ -69,10 +69,10 @@ declare module '@johndoeantler-tmp/mal-scraper' {
     status?: number,
   ): Promise<
     T extends 'anime'
-      ? UserAnimeEntryDataModel[]
-      : T extends 'manga'
-        ? UserMangaEntryDataModel[]
-        : never
+    ? UserAnimeEntryDataModel[]
+    : T extends 'manga'
+    ? UserMangaEntryDataModel[]
+    : never
   >
 
   /**
@@ -88,10 +88,10 @@ declare module '@johndoeantler-tmp/mal-scraper' {
     type?: T,
   ): Promise<
     T extends 'anime'
-      ? UserAnimeEntryDataModel[]
-      : T extends 'manga'
-        ? UserMangaEntryDataModel[]
-        : never
+    ? UserAnimeEntryDataModel[]
+    : T extends 'manga'
+    ? UserMangaEntryDataModel[]
+    : never
   >
 
   /**
@@ -105,10 +105,10 @@ declare module '@johndoeantler-tmp/mal-scraper' {
     type?: T,
   ): Promise<
     T extends 'anime'
-      ? UserAnimeEntryDataModel[]
-      : T extends 'manga'
-        ? UserMangaEntryDataModel[]
-        : never
+    ? UserAnimeEntryDataModel[]
+    : T extends 'manga'
+    ? UserMangaEntryDataModel[]
+    : never
   >
 
   /**
@@ -196,10 +196,10 @@ declare module '@johndoeantler-tmp/mal-scraper' {
       options?: SearchOptions,
     ): Promise<
       A extends 'anime'
-        ? AnimeSearchModel[]
-        : A extends 'manga'
-          ? MangaSearchModel[]
-          : never
+      ? AnimeSearchModel[]
+      : A extends 'manga'
+      ? MangaSearchModel[]
+      : never
     >
 
     /**
