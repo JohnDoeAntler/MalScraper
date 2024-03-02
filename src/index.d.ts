@@ -1,7 +1,7 @@
 declare module 'mal-scraper' {
   //=/ ----- VARIABLES ----- /=//
 
-  let search: Search;
+  let search: Search
 
   //=/ ----- FUNCTIONS ----- /=//
 
@@ -11,24 +11,27 @@ declare module 'mal-scraper' {
    * @param getBestMatch Whether you want to use [`match-sorter`](https://github.com/kentcdodds/match-sorter) to find the best result or not. (Default to `true`)
    * @returns A promise that resolves to an object containing the infos about the anime.
    */
-  export function getInfoFromName<B extends boolean = true, T extends AllowedTypes = 'anime'>(
+  export function getInfoFromName<
+    B extends boolean = true,
+    T extends AllowedTypes = 'anime',
+  >(
     name: string,
     getBestMatch?: B,
     type?: T,
   ): Promise<
-  T extends 'anime'
-    ? AnimeDataModel
-    : T extends 'manga'
-    ? MangaDataModel
-    : never
-  >;
+    T extends 'anime'
+      ? AnimeDataModel
+      : T extends 'manga'
+        ? MangaDataModel
+        : never
+  >
 
   /**
    * Get infos about an anime from the given URL.
    * @param url The URL of the anime to search.
    * @returns Same as {@link getInfoFromName `getInfoFromName()`}.
    */
-  export function getInfoFromURL(url: string): Promise<AnimeDataModel>;
+  export function getInfoFromURL(url: string): Promise<AnimeDataModel>
 
   /**
    * Return an array of a maximum length of 10 containing {@link SearchResultsDataModel Search result data model} objects.
@@ -36,8 +39,8 @@ declare module 'mal-scraper' {
    */
   export function getResultsFromSearch<T extends AllowedTypes = 'anime'>(
     query: string,
-    type?: T
-  ): Promise<SearchResultsDataModel[]>;
+    type?: T,
+  ): Promise<SearchResultsDataModel[]>
 
   /**
    * Get the list of animes, OVAs, movies and ONAs released (or planned to be released) during the season of the given year.
@@ -48,9 +51,8 @@ declare module 'mal-scraper' {
   export function getSeason(
     year: number,
     season: Seasons,
-    type?: Types
-  ): Promise<SeasonDataModel>;
-
+    type?: Types,
+  ): Promise<SeasonDataModel>
 
   /**
    * Get the watchlist of the given user.
@@ -64,14 +66,14 @@ declare module 'mal-scraper' {
     username: string,
     after?: number,
     type?: T,
-    status?: number
+    status?: number,
   ): Promise<
     T extends 'anime'
       ? UserAnimeEntryDataModel[]
       : T extends 'manga'
-      ? UserMangaEntryDataModel[]
-      : never
-  >;
+        ? UserMangaEntryDataModel[]
+        : never
+  >
 
   /**
    * Get the watchlist of the given user.
@@ -83,14 +85,14 @@ declare module 'mal-scraper' {
   export function getWatchListFromUser<T extends AllowedTypes = 'anime'>(
     username: string,
     after?: number,
-    type?: T
+    type?: T,
   ): Promise<
     T extends 'anime'
       ? UserAnimeEntryDataModel[]
       : T extends 'manga'
-      ? UserMangaEntryDataModel[]
-      : never
-  >;
+        ? UserMangaEntryDataModel[]
+        : never
+  >
 
   /**
    * Get the watchlist of the given user.
@@ -100,21 +102,21 @@ declare module 'mal-scraper' {
    */
   export function getWatchListFromUser<T extends AllowedTypes = 'anime'>(
     username: string,
-    type?: T
+    type?: T,
   ): Promise<
     T extends 'anime'
       ? UserAnimeEntryDataModel[]
       : T extends 'manga'
-      ? UserMangaEntryDataModel[]
-      : never
-  >;
+        ? UserMangaEntryDataModel[]
+        : never
+  >
 
   /**
    * Get news from MyAnimeList.
    * @param nbNews The count of news you want to get, default is 160. Note that there is a 20 news per page, so if you set if to 60 for example, it will result in 3 requests.
    * You should be aware of that, as MyAnimeList will most likely rate-limit you if more than 35-40~ requests are done in a few seconds.
    */
-  export function getNewsNoDetails(nbNews?: number): Promise<NewsDataModel[]>;
+  export function getNewsNoDetails(nbNews?: number): Promise<NewsDataModel[]>
 
   /**
    * Get an episode list
@@ -122,8 +124,8 @@ declare module 'mal-scraper' {
    * this will be slower but the id will be automatically fetched on the first way.
    */
   export function getEpisodesList(
-    anime: AnimeOptions | string
-  ): Promise<AnimeEpisodesDataModel[]>;
+    anime: AnimeOptions | string,
+  ): Promise<AnimeEpisodesDataModel[]>
 
   /**
    * Returns an array of reviews for the given anime.
@@ -131,8 +133,8 @@ declare module 'mal-scraper' {
    * you may call the method with the name as string, this will be slower but the id will be automatically fetched on the first way.
    */
   export function getReviewsList(
-    anime: ReviewsListAnimeOptions
-  ): Promise<AnimeReviewsDataModel[]>;
+    anime: ReviewsListAnimeOptions,
+  ): Promise<AnimeReviewsDataModel[]>
 
   /**
    * Get a list of the recommendations for the given anime.
@@ -140,8 +142,8 @@ declare module 'mal-scraper' {
    * you may call the method with the name as string, this will be slower but the id will be automatically fetched on the first way.
    */
   export function getRecommendationsList(
-    anime: AnimeOptions | string
-  ): Promise<AnimeRecommendationsDataModel[]>;
+    anime: AnimeOptions | string,
+  ): Promise<AnimeRecommendationsDataModel[]>
 
   /**
    * Get the stats of the given anime.
@@ -149,23 +151,39 @@ declare module 'mal-scraper' {
    * you may call the method with the name as string, this will be slower but the id will be automatically fetched on the first way.
    */
   export function getStats(
-    anime: AnimeOptions | string
-  ): Promise<AnimeStatsDataModel[]>;
+    anime: AnimeOptions | string,
+  ): Promise<AnimeStatsDataModel[]>
+
+  /**
+   * Get the pictures of the given type.
+   * @param anime If an object is passed, it must have the `name`and `id` property. If you only have the name and not the id,
+   */
+  export function getPictures(
+    type: 'anime' | 'manga',
+  ): (options: AnimeOptions | string) => Promise<AnimePicturesDataModel[]>
 
   /**
    * Get the pictures of the given anime.
    * @param anime If an object is passed, it must have the `name`and `id` property. If you only have the name and not the id,
    */
-  export function getPictures(
-    anime: AnimeOptions | string
-  ): Promise<AnimePicturesDataModel[]>;
+  export function getAnimePictures(
+    anime: AnimeOptions | string,
+  ): Promise<AnimePicturesDataModel[]>
+
+  /**
+   * Get the pictures of the given manga.
+   * @param anime If an object is passed, it must have the `name`and `id` property. If you only have the name and not the id,
+   */
+  export function getMangaPictures(
+    manga: AnimeOptions | string,
+  ): Promise<AnimePicturesDataModel[]>
 
   //=/ ----- CLASSES ----- /=//
   //   class officialApi was removed.
 
   //=/ ---- TYPES ---- /=//
 
-  type AllowedTypes = 'anime' | 'manga';
+  type AllowedTypes = 'anime' | 'manga'
 
   type Search = {
     /**
@@ -175,20 +193,20 @@ declare module 'mal-scraper' {
      */
     search<A extends AllowedTypes>(
       type: A,
-      options?: SearchOptions
+      options?: SearchOptions,
     ): Promise<
       A extends 'anime'
         ? AnimeSearchModel[]
         : A extends 'manga'
-        ? MangaSearchModel[]
-        : never
-    >;
+          ? MangaSearchModel[]
+          : never
+    >
 
     /**
      * Helpers for types, genres and list you might need for your research
      */
-    helpers: Helpers;
-  };
+    helpers: Helpers
+  }
 
   type GenreValues =
     | '1'
@@ -233,7 +251,7 @@ declare module 'mal-scraper' {
     | '40'
     | '41'
     | '42'
-    | '43';
+    | '43'
 
   type GenreName =
     | 'Action'
@@ -278,21 +296,21 @@ declare module 'mal-scraper' {
     | 'Psychological'
     | 'Thriller'
     | 'Seinen'
-    | 'Josei';
+    | 'Josei'
 
-  type RatingValue = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+  type RatingValue = 0 | 1 | 2 | 3 | 4 | 5 | 6
 
-  type RatingName = 'none' | 'G' | 'PG' | 'PG-13' | 'R' | 'R+' | 'Rx';
+  type RatingName = 'none' | 'G' | 'PG' | 'PG-13' | 'R' | 'R+' | 'Rx'
 
-  type TypeValue = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+  type TypeValue = 0 | 1 | 2 | 3 | 4 | 5 | 6
 
-  type TypeName = 'none' | 'tv' | 'movie' | 'special' | 'ova' | 'ona' | 'music';
+  type TypeName = 'none' | 'tv' | 'movie' | 'special' | 'ova' | 'ona' | 'music'
 
-  type StatusValue = 0 | 1 | 2 | 3;
+  type StatusValue = 0 | 1 | 2 | 3
 
-  type StatusName = 'none' | 'finished' | 'currently' | 'not-aired';
+  type StatusName = 'none' | 'finished' | 'currently' | 'not-aired'
 
-  type Score = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  type Score = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
   type OrderTypes = [
     'startDate',
@@ -301,8 +319,8 @@ declare module 'mal-scraper' {
     'endDate',
     'type',
     'members',
-    'rated'
-  ];
+    'rated',
+  ]
 
   type Types =
     | 'TV'
@@ -311,9 +329,9 @@ declare module 'mal-scraper' {
     | 'Movies'
     | 'OVAs'
     | 'ONAs'
-    | 'Specials';
+    | 'Specials'
 
-  type Seasons = 'spring' | 'summer' | 'fall' | 'winter';
+  type Seasons = 'spring' | 'summer' | 'fall' | 'winter'
 
   type FullRatings =
     | 'G - All ages'
@@ -321,7 +339,7 @@ declare module 'mal-scraper' {
     | 'PG-13 - Teens 13 or older'
     | 'R - 17+'
     | 'R+ - Mild Nudity'
-    | 'Rx - Hentai';
+    | 'Rx - Hentai'
 
   /**
    * `0` - Unknown
@@ -332,7 +350,7 @@ declare module 'mal-scraper' {
    * `5` - ONA | Manhwha
    * `6` - Music | Manhua
    */
-  type TypesReferences = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+  type TypesReferences = 0 | 1 | 2 | 3 | 4 | 5 | 6
 
   /**
    * `1` - Watching | Reading\
@@ -341,7 +359,7 @@ declare module 'mal-scraper' {
    * `4` - Dropped\
    * `6` - Plan-to-Watch | Plan-to-Read
    */
-  type StatusReference = 1 | 2 | 3 | 4 | 6;
+  type StatusReference = 1 | 2 | 3 | 4 | 6
 
   /**
    * `1` - Watching | Reading\
@@ -351,14 +369,14 @@ declare module 'mal-scraper' {
    * `6` - Plan-to-Watch | Plan-to-Read\
    * `7` - All status above
    */
-    type SearchStatusReference = StatusReference | 7
+  type SearchStatusReference = StatusReference | 7
 
   /**
    * `1` - Currently airing | Publishing\
    * `2` - Finished airing | Finished\
    * `3` - Not yet aired | Not yet published
    */
-  type SeriesStatusReference = 1 | 2 | 3;
+  type SeriesStatusReference = 1 | 2 | 3
 
   //=/ ---- INTERFACES ---- /=//
 
@@ -366,120 +384,120 @@ declare module 'mal-scraper' {
    * All of this properties are optional
    */
   interface SearchOptions {
-    maxResults?: number;
-    has?: number;
-    term: string;
-    type?: number;
-    status?: number;
-    producer?: number;
-    rating?: number;
+    maxResults?: number
+    has?: number
+    term: string
+    type?: number
+    status?: number
+    producer?: number
+    rating?: number
     startDate?: {
-      day?: number;
-      month?: number;
-      year?: number;
-    };
+      day?: number
+      month?: number
+      year?: number
+    }
     endDate?: {
-      day?: number;
-      month?: number;
-      year?: number;
-    };
-    genreType?: number;
-    genre?: [number];
+      day?: number
+      month?: number
+      year?: number
+    }
+    genreType?: number
+    genre?: [number]
   }
 
   interface Helpers {
     availableValues: {
       genre: {
-        anime: Genres[];
-        manga: Genres[];
-      };
+        anime: Genres[]
+        manga: Genres[]
+      }
       p: {
         anime: {
-          name: string;
-          value: string;
-        }[];
+          name: string
+          value: string
+        }[]
         manga: {
-          name: string;
-          value: string;
-        }[];
-      };
+          name: string
+          value: string
+        }[]
+      }
 
-      r: Rating[];
+      r: Rating[]
 
-      score: Score[];
+      score: Score[]
 
-      status: Status[];
+      status: Status[]
 
-      type: Type[];
-    };
+      type: Type[]
+    }
 
     genresList: {
-      anime: Genres[];
-      manga: Genres[];
-    };
+      anime: Genres[]
+      manga: Genres[]
+    }
 
-    orderTypes: OrderTypes;
+    orderTypes: OrderTypes
 
     producerList: {
       anime: {
-        name: string;
-        value: string;
-      }[];
+        name: string
+        value: string
+      }[]
       manga: {
-        name: string;
-        value: string;
-      }[];
-    };
+        name: string
+        value: string
+      }[]
+    }
   }
 
   interface AnimeOptions {
     /**
      * The name of the anime
      */
-    name: string;
+    name: string
 
     /**
      * The unique id of the anime
      */
-    id: number;
+    id: number
   }
 
   interface SearchResultsDataModel {
     /**
      * The unique identifier of the anime/manga
      */
-    id: string;
+    id: string
 
     /**
      * The type of the anime/manga (e.g: anime, manga, special, ova, ona, music..)
      */
-    type: string;
+    type: string
 
     /**
      * The title of the anime/manga
      */
-    name: string;
+    name: string
 
     /**
      * The image URL of the anime/manga
      */
-    image_url?: string;
+    image_url?: string
 
     /**
      * The thumbnail URL of the anime/manga
      */
-    thumbnail_url?: string;
+    thumbnail_url?: string
 
     /**
      * A number representing the accuracy of the result,
      * where 1 is a perfect match and 0 a totally irrelevent result
      */
-    es_score?: number;
+    es_score?: number
 
     /**
      * An object containing additional data about this anime
      */
-    payload?: Payload;
+    payload?: Payload
   }
 
   /**
@@ -489,488 +507,488 @@ declare module 'mal-scraper' {
     /**
      * The type of the anime, can be either `TV`, `Movie`, `OVA` or `Special`
      */
-    media_type?: string;
+    media_type?: string
 
     /**
      * The year the airing of the anime started
      */
-    start_year?: number;
+    start_year?: number
 
     /**
      * The date from wich the airing started to the one from wich ended
      */
-    aired?: string;
+    aired?: string
 
     /**
      * The average score given to this anime
      */
-    score?: string;
+    score?: string
 
     /**
      * The current status of the anime (e.g: currently airing, finished airing, not yet aired)
      */
-    status?: StatusName;
+    status?: StatusName
   }
 
   interface Genres {
-    value: GenreValues;
-    name: GenreName;
+    value: GenreValues
+    name: GenreName
   }
 
   interface Rating {
-    value: RatingValue;
-    name: RatingName;
+    value: RatingValue
+    name: RatingName
   }
 
   interface Type {
-    value: TypeValue;
-    name: TypeName;
+    value: TypeValue
+    name: TypeName
   }
 
   interface Status {
-    value: StatusValue;
-    name: StatusName;
+    value: StatusValue
+    name: StatusName
   }
 
   interface AnimeSearchModel {
     /**
      * Full url for anime thumbnail.
      */
-    thumbnail: string;
+    thumbnail: string
 
     /**
      * Full url of the anime page.
      */
-    url: string;
+    url: string
 
     /**
      * Full url of anime trailer, if any.
      */
-    video?: string;
+    video?: string
 
     /**
      * Short description of the anime.
      */
-    shortDescription: string;
+    shortDescription: string
 
     /**
      * The anime's title.
      */
-    title: string;
+    title: string
 
     /**
      * The anime's type.
      */
-    type: string;
+    type: string
 
     /**
      * The number of episodes.
      */
-    nbEps: string;
+    nbEps: string
 
     /**
      * The anime score.
      */
-    score: string;
+    score: string
 
     /**
      * The anime start date.
      */
-    startDate: string;
+    startDate: string
 
     /**
      * The anime end date.
      */
-    endDate: string;
+    endDate: string
 
     /**
      * The anime number of members.
      */
-    members: string;
+    members: string
 
     /**
      * The anime rating.
      */
-    rating: string;
+    rating: string
   }
 
   interface MangaSearchModel {
     /**
      * Full url for manga thumbnail.
      */
-    thumbnail: string;
+    thumbnail: string
 
     /**
      * Full url of the manga page.
      */
-    url: string;
+    url: string
 
     /**
      * Full url of manga trailer, if any.
      */
-    video?: string;
+    video?: string
 
     /**
      * Short description of the manga.
      */
-    shortDescription: string;
+    shortDescription: string
     /**
      * The manga's title.
      */
-    title: string;
+    title: string
 
     /**
      * The manga's type.
      */
-    type: TypeName;
+    type: TypeName
 
     /**
      * The number of chapters released so far.
      */
-    nbChapters: number;
+    nbChapters: number
 
     /**
      * The manga score.
      */
-    score: Score;
+    score: Score
 
     /**
      * The manga start date.
      */
-    startDate: string;
+    startDate: string
 
     /**
      * The manga end date.
      */
-    endDate: string;
+    endDate: string
 
     /**
      * The manga number of members.
      */
-    members: string;
+    members: string
 
     /**
      * The number of volumes released so far.
      */
-    vols: string;
+    vols: string
   }
 
   interface AnimeDataModel {
     /**
      * The title of the anime.
      */
-    title: string;
+    title: string
 
     /**
      * The synopsis of the anime.
      */
-    synopsis?: string;
+    synopsis?: string
 
     /**
      * The URL to the cover picture of the anime.
      */
-    picture?: string;
+    picture?: string
 
     /**
      * An array of {@link CharacterDataModel Character data model} objects.
      */
-    characters?: CharacterDataModel[];
+    characters?: CharacterDataModel[]
 
     /**
      * An array of {@link StaffDataModel Staff data model} objects.
      */
-    staff?: StaffDataModel[];
+    staff?: StaffDataModel[]
 
     /**
      * A trailer to the embedded video of the anime.
      */
-    trailer?: string;
+    trailer?: string
 
     /**
      * The english title of the anime.
      */
-    englishTitle?: string;
+    englishTitle?: string
 
     /**
      * An array of synonyms of the anime title. (other languages names, related ovas/movies/animes) (e.g: One Piece -> OP)
      */
-    synonyms: string[];
+    synonyms: string[]
 
     /**
      * The type of the anime (e.g: `TV`, `Movie`, `OVA` or `Special`)
      */
-    type?: 'TV' | 'Movie' | 'OVA' | 'Special';
+    type?: 'TV' | 'Movie' | 'OVA' | 'Special'
 
     /**
      * The number of aired episodes.
      */
-    episodes?: string;
+    episodes?: string
 
     /**
      * The status of the anime (e.g: `Finished Airing`, `Currently Airing`, `Not yet aired`)
      */
-    status?: StatusName;
+    status?: StatusName
 
     /**
      * The date from which the airing started to the one from which it ended,
      * this property will be empty if one of the two dates is unknown
      */
-    aired?: string;
+    aired?: string
 
     /**
      * The date when the anime has been premiered.
      */
-    premiered?: string;
+    premiered?: string
 
     /**
      * When the anime is broadcasted.
      */
-    broadcast?: string;
+    broadcast?: string
 
     /**
      * The number of volumes of the novel
      */
-    volumes?: string;
+    volumes?: string
 
     /**
      * The number of chapters of the novel
      */
-    chapters?: string;
+    chapters?: string
 
     /**
      * The dates of publication of the novel
      */
-    published?: string;
+    published?: string
 
     /**
      * The authors of the novel
      */
-    authors?: string;
+    authors?: string
 
     /**
      * The serialization of the novel
      */
-    serialization?: string;
+    serialization?: string
 
     /**
      * An array of producer(s) of the anime
      */
-    producers?: string[];
+    producers?: string[]
 
     /**
      * An array of the studio(s) of the anime
      */
-    studios?: string[];
+    studios?: string[]
 
     /**
      * On what the anime is based on (e.g: based on a manga, Light Novel, etc.)
      */
-    source?: string;
+    source?: string
 
     /**
      * An array of genres of the anime (Action, Slice of Life, Drama, etc.)
      */
-    genres?: GenreName[];
+    genres?: GenreName[]
 
     /**
      * Average duration of an episode of the anime (or total duration if it's a movie)
      */
-    duration?: string;
+    duration?: string
 
     /**
      * The rating of the anime (e.g: `Rx`, `R`, `R+`, `PG-13`, `PG`, `G`, `PG-13+`, `Rx+`)
      */
-    rating?: FullRatings;
+    rating?: FullRatings
 
     /**
      * The average score of the anime
      */
-    score?: string;
+    score?: string
 
     /**
      * By how many users this anime has been rated, like `"scored by 255,693 users"`
      */
-    scoreStats?: string;
+    scoreStats?: string
 
     /**
      * The rank of the anime
      */
-    ranked?: string;
+    ranked?: string
 
     /**
      * The popularity of the anime
      */
-    popularity?: string;
+    popularity?: string
 
     /**
      * How many users are members of the anime (have it on their list)
      */
-    members?: string;
+    members?: string
 
     /**
      * The count of how many users marked this anime as favorite
      */
-    favorites?: string;
+    favorites?: string
 
     /**
      * The unique identifier of the anime
      */
-    id: number;
+    id: number
 
     /**
      * The URL of the anime page
      */
-    url: string;
+    url: string
   }
 
   interface MangaDataModel {
     /**
      * The title of the manga
      */
-    title: string;
+    title: string
 
     /**
      * The synopsis of the manga
      */
-    synopsis?: string;
+    synopsis?: string
 
     /**
      * An URL to the manga's cover image
      */
-    picture?: string;
+    picture?: string
 
     /**
      * An array of {@link CharacterDataModel Character data model} objects.
      */
-    characters?: CharacterDataModel[];
+    characters?: CharacterDataModel[]
 
     /**
      * The english title of the manga
      */
-    englishTitle?: string;
+    englishTitle?: string
 
     /**
      * A set of synonyms for the manga
      */
-    synonyms?: string[];
+    synonyms?: string[]
 
     /**
      * The type of the manga (Manga, Doujinshi...)
      */
-    type: string;
+    type: string
 
     /**
      * The status of the manga (Publishing, Finished...)
      */
-    status?: string;
+    status?: string
 
     /**
      * A `YYYY-MM-DD` date format of when the manga started publishing
      */
-    start_date?: string;
+    start_date?: string
 
     /**
      * A `YYYY-MM-DD` date format of when the manga finished publishing
      */
-    end_date?: string;
+    end_date?: string
 
     /**
      * Total count of volumes this manga has
      */
-    volumes?: string;
+    volumes?: string
 
     /**
      * Total count of chapters this manga has
      */
-    chapters?: string;
+    chapters?: string
 
     /**
      * The date from which the publishing started to the one from which it ended,
      * this property will be empty if one of the two dates is unknown
      */
-    published?: string;
+    published?: string
 
     /**
      * The authors of the novel
      */
-    authors?: string;
+    authors?: string
 
     /**
      * The serialization of the novel
      */
-    serialization?: string;
+    serialization?: string
 
     /**
      * An array of genres of the manga (Action, Slice of Life, Drama, etc.)
      */
-    genres?: GenreName[];
+    genres?: GenreName[]
 
     /**
      * The average score given by users to this manga
      */
-    score?: string;
+    score?: string
 
     /**
      * By how many users this manga has been rated, like `"scored by 255,693 users"`
      */
-    scoreStats?: string;
+    scoreStats?: string
 
     /**
      * The rank of the manga
      */
-    ranked?: string;
+    ranked?: string
 
     /**
      * The popularity of the manga
      */
-    popularity?: string;
+    popularity?: string
 
     /**
      * How many users are members of the manga (have it on their list)
      */
-    members?: string;
+    members?: string
 
     /**
      * The count of how many users marked this manga as favorite
      */
-    favorites?: string;
+    favorites?: string
 
     /**
      * The unique identifier of this manga
      */
-    id: string;
+    id: string
 
     /**
      * The URL of the manga page
      */
-    url: string;
+    url: string
   }
 
   interface CharacterDataModel {
     /**
      * Link to the character's page on MyAnimeList
      */
-    link: string;
+    link: string
 
     /**
      * Link to a picture of the character at the best possible resolution
      */
-    picture: string;
+    picture: string
 
     /**
      * Their name and surname, like `"Kazuma Takahashi"`
      */
-    name: string;
+    name: string
 
     /**
      * The role of this person has/had in this anime (Main, Supporting, etc...)
      */
-    role: string;
+    role: string
 
     /**
      * An object containing additional data about who dubbed this character
      */
-    seiyuu: SeiyuuDataModel;
+    seiyuu: SeiyuuDataModel
   }
 
   /**
@@ -980,17 +998,17 @@ declare module 'mal-scraper' {
     /**
      * Link to the MyAnimeList profile of who dubbed this character
      */
-    link?: string;
+    link?: string
 
     /**
      * Link to a picture of the seiyuu at the best possible resolution
      */
-    picture?: string;
+    picture?: string
 
     /**
      * Their name and surname, like `"John Doe"`
      */
-    name?: string;
+    name?: string
   }
 
   /**
@@ -1000,22 +1018,22 @@ declare module 'mal-scraper' {
     /**
      * Link to the MAL profile of this person
      */
-    link?: string;
+    link?: string
 
     /**
      * A link to a picture of this person at the best possible resolution
      */
-    picture?: string;
+    picture?: string
 
     /**
      * Their name and surname, like `"John Doe"`
      */
-    name?: string;
+    name?: string
 
     /**
      * The role of this person has/had in this anime (Director, Sound Director, etc...)
      */
-    role?: string;
+    role?: string
   }
 
   /**
@@ -1025,353 +1043,353 @@ declare module 'mal-scraper' {
     /**
      * An array of {@link SeasonDataModel Seasonal anime release data model} objects
      */
-    TV?: SeasonalDataModel[];
+    TV?: SeasonalDataModel[]
 
     /**
      * An array of {@link SeasonDataModel Seasonal anime release data model} objects
      */
-    TVNew?: SeasonalDataModel[];
+    TVNew?: SeasonalDataModel[]
 
     /**
      * An array of {@link SeasonDataModel Seasonal anime release data model} objects
      */
-    TVCon?: SeasonalDataModel[];
+    TVCon?: SeasonalDataModel[]
 
     /**
      * An array of {@link SeasonDataModel Seasonal anime release data model} objects
      */
-    OVAs?: SeasonalDataModel[];
+    OVAs?: SeasonalDataModel[]
 
     /**
      * An array of {@link SeasonDataModel Seasonal anime release data model} objects
      */
-    ONAs?: SeasonalDataModel[];
+    ONAs?: SeasonalDataModel[]
 
     /**
      * An array of {@link SeasonDataModel Seasonal anime release data model} objects
      */
-    Movies?: SeasonalDataModel[];
+    Movies?: SeasonalDataModel[]
 
     /**
      * An array of {@link SeasonDataModel Seasonal anime release data model} objects
      */
-    Specials?: SeasonalDataModel[];
+    Specials?: SeasonalDataModel[]
   }
 
   interface SeasonalDataModel {
     /**
      * Link to the picture of the anime
      */
-    picture?: string;
+    picture?: string
 
     /**
      * The synopsis of the anime
      */
-    synopsis?: string;
+    synopsis?: string
 
     /**
      * The licensor of the anime
      */
-    licensor?: string;
+    licensor?: string
 
     /**
      * The name of the anime
      */
-    title: string;
+    title: string
 
     /**
      * The direct link to the anime page on MyAnimeList
      */
-    link?: string;
+    link?: string
 
     /**
      * An array of strings containing the names of the genres of the anime
      */
-    genres?: GenreName[];
+    genres?: GenreName[]
 
     /**
      * An array of strings containing the producers of the anime
      */
-    producers?: string[];
+    producers?: string[]
 
     /**
      * From what this anime is based on/an adaptation of (Light Novel, Manga, etc...)
      */
-    fromType?: string;
+    fromType?: string
 
     /**
      * The number of the aired episodes this anime has
      */
-    nbEps?: string;
+    nbEps?: string
 
     /**
      * When this anime has been released
      */
-    releaseDate?: string;
+    releaseDate?: string
 
     /**
      * The average users have given to this anime
      */
-    score?: string;
+    score?: string
   }
 
   interface UserAnimeEntryDataModel {
     /**
      * Status of the anime in the user's watch list (completed, on-hold...), see the {@link StatusReference Status Reference} for more information
      */
-    status?: StatusReference;
+    status?: StatusReference
 
     /**
      * Score given to the anime by the user
      */
-    score?: number;
+    score?: number
 
     /**
      * Anime tags for this anime. Tags are separated by a comma.
      */
-    tags?: string;
+    tags?: string
 
     /**
      * Whether this user is rewatching this anime
      */
-    isRewatching?: number;
+    isRewatching?: number
 
     /**
      * Number of episodes this user has watched
      */
-    numWatchedEpisodes?: number;
+    numWatchedEpisodes?: number
 
     /**
      * The title of anime
      */
-    animeTitle: string;
+    animeTitle: string
 
     /**
      * How many episodes this anime has
      */
-    animeNumEpisodes?: number;
+    animeNumEpisodes?: number
 
     /**
      * The status of the anime, see {@link SeriesStatusReference Series statuses references} for more information
      */
-    animeAiringStatus?: string;
+    animeAiringStatus?: string
 
     /**
      * The unique identifier of this anime
      */
-    animeId: string;
+    animeId: string
 
     /**
      * The studios of this anime
      */
-    animeStudios?: string;
+    animeStudios?: string
 
     /**
      * Who licensed this anime
      */
-    animeLicensors?: string;
+    animeLicensors?: string
 
     /**
      * ???
      */
-    animeSeason?: string;
+    animeSeason?: string
 
     /**
      * Whether episode information are available on MyAnimeList
      */
-    hasEpisodeVideo?: boolean;
+    hasEpisodeVideo?: boolean
 
     /**
      * Whether anime trailer is available on MAL
      */
-    hasPromotionVideo?: boolean;
+    hasPromotionVideo?: boolean
 
     /**
      * The path to the video url on MAL
      */
-    videoURL?: string;
+    videoURL?: string
 
     /**
      * The path to the anime URL on MAL
      */
-    animeURL?: string;
+    animeURL?: string
 
     /**
      * The path to the anime poster on MAL
      */
-    animeImagePath?: string;
+    animeImagePath?: string
 
     /**
      * ???
      */
-    isAddedToList?: boolean;
+    isAddedToList?: boolean
 
     /**
      * Type of this anime
      */
-    animeMediaTypeString?: string;
+    animeMediaTypeString?: string
 
     /**
      * The rating of this anime
      */
-    animeMpaaRatingString?: string;
+    animeMpaaRatingString?: string
 
     /**
      * When did this user started watching this anime
      */
-    startDateString?: string;
+    startDateString?: string
 
     /**
      * When did this user finished watching this anime
      */
-    finishDateString?: string;
+    finishDateString?: string
 
     /**
      * The start date of the anime following the format `MM-DD-YYYY`
      */
-    animeStartDateString?: string;
+    animeStartDateString?: string
 
     /**
      * The end date of the anime following the format `MM-DD-YYYY`
      */
-    animeEndDateString?: string;
+    animeEndDateString?: string
 
     /**
      * ???
      */
-    daysString?: string;
+    daysString?: string
 
     /**
      * The storage type of this anime (setted by the user)
      */
-    storageString?: string;
+    storageString?: string
 
     /**
      * The priorityof this anime for the user
      */
-    priorityString?: string;
+    priorityString?: string
   }
 
   interface UserMangaEntryDataModel {
     /**
      * @deprecated
      */
-    myID: string;
+    myID: string
 
     /**
      * Status of the manga in the user's manga list (completed, on-hold...), see the {@link StatusReference Status Reference} for more informations
      */
-    status?: StatusReference;
+    status?: StatusReference
 
     /**
      * The score the user gave to the manga
      */
-    score?: number;
+    score?: number
 
     /**
      * The tags the user gave to the manga
      */
-    tags?: string;
+    tags?: string
 
     /**
      * Whether the user is re-reading the manga, where `0` means not re-reading and `1` means re-reading
      */
-    isRereading?: number;
+    isRereading?: number
 
     /**
      * The number of chapters the user has read
      */
-    nbReadChapters?: number;
+    nbReadChapters?: number
 
     /**
      * The number of volumes the user has read
      */
-    nbReadVolumes?: number;
+    nbReadVolumes?: number
 
     /**
      * The title of the manga
      */
-    mangaTitle: string;
+    mangaTitle: string
 
     /**
      * Total count of volumes this manga has
      */
-    mangaNumChapters?: number;
+    mangaNumChapters?: number
 
     /**
      * Count of volumes this manga has
      */
-    mangaNumVolumes?: number;
+    mangaNumVolumes?: number
 
     /**
      * The status of the manga, see {@link SeriesStatusReference Series statuses references} for more information
      */
-    mangaPublishingStatus?: SeriesStatusReference;
+    mangaPublishingStatus?: SeriesStatusReference
 
     /**
      * The unique identifier of this manga
      */
-    mangaId: number;
+    mangaId: number
 
     /**
      * Magazines where this manga airs
      */
-    mangaMagazines?: string;
+    mangaMagazines?: string
 
     /**
      * The path to the manga page on MAL
      */
-    mangaURL?: string;
+    mangaURL?: string
 
     /**
      * The url of the manga poster on MAL
      */
-    mangaImagePath?: string;
+    mangaImagePath?: string
 
     /**
      * ???
      */
-    isAddedToList?: boolean;
+    isAddedToList?: boolean
 
     /**
      * The type of the manga, see {@link TypesReferences Types References} for more information
      */
-    mangaMediaTypeString?: string;
+    mangaMediaTypeString?: string
 
     /**
      * A `MM-DD-YYYY` format date of when the user started reading this manga
      */
-    startDateString?: string;
+    startDateString?: string
 
     /**
      * A `MM-DD-YYYY` format date of when the user finished reading this manga
      */
-    finishDateString?: string;
+    finishDateString?: string
 
     /**
      * A `MM-DD-YYYY` format date of when the manga started publishing
      */
-    mangaStartDateString?: string;
+    mangaStartDateString?: string
 
     /**
      * A `MM-DD-YYYY` format date of when the manga finished publishing
      */
-    mangaEndDateString?: string;
+    mangaEndDateString?: string
 
     /**
      * ???
      */
-    daysString?: string;
+    daysString?: string
 
     /**
      * ???
      */
-    retailString?: string;
+    retailString?: string
 
     /**
      * Priority of this manga for the user
      */
-    priorityString?: string;
+    priorityString?: string
   }
 
   /**
@@ -1381,27 +1399,27 @@ declare module 'mal-scraper' {
     /**
      * The title of the news
      */
-    title: string;
+    title: string
 
     /**
      * The link to the article
      */
-    link?: string;
+    link?: string
 
     /**
      * The URL of the cover image of the article
      */
-    image?: string;
+    image?: string
 
     /**
      * A short preview of the news description
      */
-    text?: string;
+    text?: string
 
     /**
      * The unique identifier of the news
      */
-    newsNumber: string;
+    newsNumber: string
   }
 
   /**
@@ -1411,217 +1429,216 @@ declare module 'mal-scraper' {
     /**
      * The episode number
      */
-    epNumber?: number;
+    epNumber?: number
 
     /**
      * A "Jan 10, 2014" date like of when the episode has been aired
      */
-    aired?: string;
+    aired?: string
 
     /**
      * -
      */
-    discussionLink?: string;
+    discussionLink?: string
 
     /**
      * The episode title
      */
-    title: string;
+    title: string
 
     /**
      * The japanese title of the episode
      */
-    japaneseTitle?: string;
+    japaneseTitle?: string
   }
 
   interface ReviewsListAnimeOptions {
     /**
      * The name of the anime
      */
-    name: string;
+    name: string
 
     /**
      * The unique identifier of this anime
      */
-    id?: number;
+    id?: number
 
     /**
      * The number max of reviews to fetch - can be really long if omit
      */
-    limit?: number;
+    limit?: number
 
     /**
      * The number of reviews to skip
      */
-    skip?: number;
+    skip?: number
   }
 
   interface AnimeReviewsDataModel {
     /**
      * The name of the author
      */
-    author?: string;
+    author?: string
 
     /**
      * The date of the comment
      */
-    date?: Date;
+    date?: Date
 
     /**
      * The number of episode seen
      */
-    seen?: string;
+    seen?: string
 
     /**
      * The overall note of the anime
      */
-    overall?: number;
+    overall?: number
 
     /**
      * The story note of the anime
      */
-    story?: number;
+    story?: number
 
     /**
      * The animation note of the anime
      */
-    animation?: number;
+    animation?: number
 
     /**
      * The sound note of the anime
      */
-    sound?: number;
+    sound?: number
 
     /**
      * The character note of the anime
      */
-    character?: number;
+    character?: number
 
     /**
      * The enjoyment note of the anime
      */
-    enjoyment?: number;
+    enjoyment?: number
 
     /**
      * The complete review
      */
-    review?: string;
+    review?: string
   }
 
   interface AnimeRecommendationsDataModel {
     /**
      * The link of the picture's anime recommended
      */
-    pictureImage?: string;
+    pictureImage?: string
 
     /**
      * The link of the anime recommended
      */
-    animeLink?: string;
+    animeLink?: string
 
     /**
      * The name of the anime recommended
      */
-    anime: string;
+    anime: string
 
     /**
      * The recommendation
      */
-    mainRecommendation?: string;
+    mainRecommendation?: string
 
     /**
      * The name of the author
      */
-    author?: string;
+    author?: string
   }
 
   interface AnimeStatsDataModel {
     /**
      * The total number of person who are watching the anime
      */
-    watching?: number;
+    watching?: number
 
     /**
      * The total number of person who completed the anime
      */
-    completed?: number;
+    completed?: number
 
     /**
      * The total number of person who stop watching the anime but will continue later
      */
-    onHold?: number;
+    onHold?: number
 
     /**
      * The total number of person who stop watching the anime
      */
-    dropped?: number;
+    dropped?: number
 
     /**
      * The total number of person who are planning to watch the anime
      */
-    planToWatch?: number;
+    planToWatch?: number
 
     /**
      * The total stats
      */
-    total?: number;
+    total?: number
 
     /**
      * The number of person ranking the anime with a 10/10
      */
-    score10?: number;
+    score10?: number
 
     /**
      * The number of person ranking the anime with a 9/10
      */
-    score9?: number;
+    score9?: number
 
     /**
      * The number of person ranking the anime with a 8/10
      */
-    score8?: number;
+    score8?: number
 
     /**
      * The number of person ranking the anime with a 7/10
      */
-    score7?: number;
+    score7?: number
 
     /**
      * The number of person ranking the anime with a 6/10
      */
-    score6?: number;
+    score6?: number
 
     /**
      * The number of person ranking the anime with a 5/10
      */
-    score5?: number;
+    score5?: number
 
     /**
      * The number of person ranking the anime with a 4/10
      */
-    score4?: number;
+    score4?: number
 
     /**
      * The number of person ranking the anime with a 3/10
      */
-    score3?: number;
+    score3?: number
 
     /**
      * The number of person ranking the anime with a 2/10
      */
-    score2?: number;
+    score2?: number
 
     /**
      * The number of person ranking the anime with a 1/10
      */
-    score1?: number;
+    score1?: number
   }
 
   interface AnimePicturesDataModel {
     /**
      * The link of the image
      */
-    imageLink?: string;
+    imageLink?: string
   }
-
 }
